@@ -6,27 +6,77 @@ import Excepciones.ItemDuplicated;
 import Excepciones.ItemNotFound;
 import bstreeInterface.BinarySearchTree;
 
-public class LinkedBST<E> extends BinarySearchTree<E> {
-    private Nodo<E> root;
+public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E>{
+    private Nodo<E> raiz;
 
     public LinkedBST(){
-        this.root = null;
+        this.raiz = null;
     }
 
-    public void insert(E data) throws ItemDuplicated {
+    //Elimina todos los elementos del BST dejándolo vacío
+    public void destroy(){
+        raiz = null; //Raiz esta vacío
+    }
+
+    //Verifica si el BST está vacío
+    public boolean isEmpty(){
+        return raiz == null; //Si la raiz es null esta vacío
+    }
+
+    //Busca un elemento en el BST
+    public E search(E valor) throws ItemNotFound{
+        E resultadoBusqueda = searchRecursivo(raiz,valor);
+        if (resultadoBusqueda == null){
+            throw new ItemNotFound();
+        }
+        return searchRecursivo(raiz,valor);
+    }
+
+    //Busca recursivamente el valor de un nodo en el árbol
+    private E searchRecursivo(Nodo<E> nodoTemporal, E valor){
+        if(nodoTemporal == null){ return null; }
+
+        int resultado = valor.compareTo(nodoTemporal.getValor());
+        if (resultado > 0){ //Si el valor a buscar es mayor al nodoTemporal (raizTemporal)
+            //Busca en la derecha(mayores)
+            return searchRecursivo(nodoTemporal.getDerecho(),valor);
+        }
+
+        else if (resultado < 0){ //Si el valor a buscar es menor al nodoTemporal
+            //Busca en la izquierda(menores)
+            return searchRecursivo(nodoTemporal.getIzquierdo(),valor);
+        }
+
+        else{ //Si resultado es igual a 0
+            //El nodoTemporal y el valor son iguales, es decir, encontró el valor en el BSTree
+            return valor;
+        }
+    }
+
+    //Agrega un elemento en el BST
+    public void insert(E valor) throws ItemDuplicated {
+        if (isEmpty()){
+            Nodo<E> nuevoNodo = new Nodo<E> (valor);
+            raiz = nuevoNodo;
+        }
+        else{
+
+        }
+    }
+
+    //Elimina un elemento en el BST
+    public void delete(E valor) throws ExceptionIsEmpty{
 
     }
 
-    public void delete(E data) throws ExceptionIsEmpty{
-
-    }
-
-    public E search(E data) throws ItemNotFound{
-
-    }
-
+    //Muestra la cadena que contiene la información en el BST
     public String toString(){
 
     }
+
+    //Recorridos del árbol según corresponda al recorrido.
+    public void InOrder(){}
+    public void PostOrder(){}
+    public void PreOrder(){}
 
 }
